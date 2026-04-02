@@ -66,7 +66,7 @@
   </section>
 
   <!-- ===== STATS STRIP ===== -->
-  <section class="stats" id="stats">
+  <section class="stats dark-section" id="stats">
     <div class="container stats-inner">
       <div class="stat">
         <div class="stat-value">
@@ -106,38 +106,67 @@
         <h2 class="section-title">One Studio.<br>Every Step.</h2>
         <p class="section-desc">Most studios just print. We handle the full journey — from your first idea to a finished object in your hands.</p>
       </div>
-      <div class="services-grid">
-        <div class="svc-card">
-          <div class="svc-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          </div>
-          <h3>We Conceptualize</h3>
-          <p>Have an idea but no file? Describe it. We design your model from scratch — then print it exactly as you imagined.</p>
-          <a href="#contact" class="svc-link">Start here <span>→</span></a>
+      <div class="tabs-wrapper">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="conceptualize">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Conceptualize
+          </button>
+          <button class="tab-btn" data-tab="print">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Print
+          </button>
+          <button class="tab-btn" data-tab="fix">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            Fix
+          </button>
         </div>
-        <div class="svc-card svc-card--featured">
-          <div class="svc-badge">Most Requested</div>
-          <div class="svc-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+
+        <div class="tab-panels">
+
+          <div class="tab-panel active" id="tab-conceptualize">
+            <div class="tab-split">
+              <div class="tab-text">
+                <div class="tab-num">01</div>
+                <h3>We Conceptualize</h3>
+                <p>Have an idea but no file? Describe it. We design your 3D model from scratch — then print it exactly as you imagined. No CAD skills required on your end.</p>
+                <a href="#contact" class="btn btn-primary btn-lg">Start Here →</a>
+              </div>
+              <div class="tab-visual tab-visual--hex" aria-hidden="true"></div>
+            </div>
           </div>
-          <h3>We Print</h3>
-          <p>Have a ready file? Upload it. We execute with precision, inspect every detail, and deliver straight to your door.</p>
-          <a href="#contact" class="svc-link">Upload your file <span>→</span></a>
-        </div>
-        <div class="svc-card">
-          <div class="svc-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+
+          <div class="tab-panel" id="tab-print">
+            <div class="tab-split">
+              <div class="tab-text">
+                <div class="tab-num">02</div>
+                <h3>We Print</h3>
+                <p>Have a ready file? Upload it. We execute with precision, inspect every detail, and deliver straight to your door across all of Cairo &amp; Giza.</p>
+                <a href="#contact" class="btn btn-primary btn-lg">Upload Your File →</a>
+              </div>
+              <div class="tab-visual tab-visual--diamond" aria-hidden="true"></div>
+            </div>
           </div>
-          <h3>We Fix</h3>
-          <p>Got a broken or flawed file? We repair it, optimize it for printing, and make it print-ready — no wasted material.</p>
-          <a href="#contact" class="svc-link">Fix my file <span>→</span></a>
+
+          <div class="tab-panel" id="tab-fix">
+            <div class="tab-split">
+              <div class="tab-text">
+                <div class="tab-num">03</div>
+                <h3>We Fix</h3>
+                <p>Got a broken or flawed file? We repair it, optimize it for printing, and make it print-ready — no wasted material, no failed prints.</p>
+                <a href="#contact" class="btn btn-primary btn-lg">Fix My File →</a>
+              </div>
+              <div class="tab-visual tab-visual--tri" aria-hidden="true"></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===== WHY 3D LAB ===== -->
-  <section class="section why-section" id="why">
+  <section class="section why-section dark-section" id="why">
     <div class="container">
       <div class="section-head" data-label="LAB">
         <p class="eyebrow">Why 3D Lab</p>
@@ -190,7 +219,7 @@
   </section>
 
   <!-- ===== HOW IT WORKS ===== -->
-  <section class="section how-section" id="how">
+  <section class="section how-section dark-section" id="how">
     <div class="container">
       <div class="section-head" data-label="PROCESS">
         <p class="eyebrow">The Process</p>
@@ -256,7 +285,7 @@
   </section>
 
   <!-- ===== CONTACT ===== -->
-  <section class="section contact-section" id="contact">
+  <section class="section contact-section dark-section" id="contact">
     <div class="container">
       <div class="section-head" data-label="START">
         <p class="eyebrow">Let's Work Together</p>

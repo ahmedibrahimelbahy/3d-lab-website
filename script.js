@@ -327,6 +327,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   // ============================================================
+  // TEXT SCRAMBLE — cycles random chars before resolving
+  // ============================================================
+  function scrambleText(el, delay) {
+    var chars  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+    var original  = el.textContent.trim();
+    var totalChars = original.replace(/\s/g, '').length;
+    var maxIter   = totalChars * 5 + 12;
+    var iterations = 0;
+
+    setTimeout(function () {
+      var interval = setInterval(function () {
+        el.textContent = original.split('').map(function (ch, idx) {
+          if (ch === ' ') return ' ';
+          if (idx < Math.floor(iterations / 5)) return ch;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        iterations++;
+        if (iterations > maxIter) {
+          clearInterval(interval);
+          el.textContent = original;
+        }
+      }, 36);
+    }, delay || 0);
+  }
+
+  // ============================================================
+  // TYPEWRITER — types hero sub text character by character
+  // ============================================================
+  function typewriterEffect(el, delay) {
+    var text = el.innerText || el.textContent;
+    el.innerHTML = '';
+    var i = 0;
+    setTimeout(function () {
+      var interval = setInterval(function () {
+        if (i < text.length) {
+          el.innerHTML += (text[i] === '\n') ? '<br>' : text[i];
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 22);
+    }, delay || 0);
+  }
+
+
+  // ============================================================
   // NAV — glass effect on scroll
   // ============================================================
   var nav = document.getElementById('nav');
@@ -362,13 +408,32 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero entrance
+  // Hero entrance — badge + scramble title + typewriter sub + CTAs + cube
+  var heroTitleSpans = document.querySelectorAll('.hero-title span');
+
+  // Pre-hide title spans and sub so they animate in
+  gsap.set(heroTitleSpans, { opacity: 0, y: 36 });
+  gsap.set('.hero-sub', { opacity: 0 });
+
   gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .from('.hero-badge',        { opacity: 0, y: 18, duration: 0.6,  delay: 0.2 })
-    .from('.hero-title span',   { opacity: 0, y: 36, stagger: 0.09, duration: 0.65 }, '-=0.2')
-    .from('.hero-sub',          { opacity: 0, y: 20, duration: 0.55 }, '-=0.3')
-    .from('.hero-actions .btn', { opacity: 0, y: 16, stagger: 0.12, duration: 0.5  }, '-=0.25')
-    .from('.hero-visual',       { opacity: 0, scale: 0.88, duration: 0.9, ease: 'power2.out' }, '-=0.95');
+    .from('.hero-badge', { opacity: 0, y: 18, duration: 0.6, delay: 0.15 })
+    .to(heroTitleSpans, {
+      opacity: 1, y: 0, stagger: 0.1, duration: 0.55,
+      onStart: function () {
+        // Trigger text scramble for each span with matching stagger
+        heroTitleSpans.forEach(function (span, i) {
+          scrambleText(span, i * 100);
+        });
+      }
+    }, '-=0.15')
+    .to('.hero-sub', {
+      opacity: 1, duration: 0.01,
+      onComplete: function () {
+        typewriterEffect(document.querySelector('.hero-sub'), 0);
+      }
+    }, '-=0.1')
+    .from('.hero-actions .btn', { opacity: 0, y: 16, stagger: 0.12, duration: 0.5 }, '+=0.55')
+    .from('.hero-visual', { opacity: 0, scale: 0.88, duration: 0.9, ease: 'power2.out' }, '-=1.1');
 
   // Stats counters
   ScrollTrigger.create({
@@ -393,10 +458,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Service cards
-  gsap.from('.svc-card', {
-    scrollTrigger: { trigger: '#services', start: 'top 72%' },
-    opacity: 0, y: 50, stagger: 0.15, duration: 0.7, ease: 'power3.out'
+  // Services — tabs entrance
+  gsap.from('.tabs-nav', {
+    scrollTrigger: { trigger: '#services', start: 'top 80%' },
+    opacity: 0, y: 22, duration: 0.55, ease: 'power3.out'
+  });
+  gsap.from('.tab-panel.active .tab-text > *', {
+    scrollTrigger: { trigger: '#services', start: 'top 74%' },
+    opacity: 0, y: 30, stagger: 0.1, duration: 0.65, ease: 'power3.out', delay: 0.1
+  });
+  gsap.from('.tab-panel.active .tab-visual', {
+    scrollTrigger: { trigger: '#services', start: 'top 74%' },
+    opacity: 0, scale: 0.78, duration: 0.75, ease: 'power2.out', delay: 0.25
   });
 
   // Why rows (alternating sides)
@@ -435,6 +508,41 @@ document.addEventListener('DOMContentLoaded', function () {
     scrollTrigger: { trigger: '#contact', start: 'top 72%' },
     opacity: 0, x: 44, duration: 0.8, ease: 'power3.out'
   });
+
+  // ============================================================
+  // TABS — GSAP cross-fade between service panels
+  // ============================================================
+  var tabBtns = document.querySelectorAll('.tab-btn');
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var tabId = btn.getAttribute('data-tab');
+      var targetPanel = document.getElementById('tab-' + tabId);
+      var currentPanel = document.querySelector('.tab-panel.active');
+
+      if (!targetPanel || targetPanel === currentPanel) return;
+
+      // Update active button
+      tabBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      // Cross-fade panels
+      gsap.to(currentPanel, {
+        opacity: 0, y: 14, duration: 0.2, ease: 'power2.in',
+        onComplete: function () {
+          currentPanel.classList.remove('active');
+          gsap.set(currentPanel, { clearProps: 'all' });
+
+          targetPanel.classList.add('active');
+          gsap.fromTo(targetPanel,
+            { opacity: 0, y: -14 },
+            { opacity: 1, y: 0, duration: 0.38, ease: 'power3.out' }
+          );
+        }
+      });
+    });
+  });
+
 
   // Select floating label
   var sel = document.getElementById('f-service');
