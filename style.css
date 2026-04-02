@@ -43,7 +43,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
   background: var(--white);
   overflow-x: hidden;
@@ -1122,23 +1122,77 @@ input, textarea, select { font-family: inherit; }
     margin: 0 auto;
   }
 
-  /* Why */
+  /* Why — horizontal swipe carousel */
+  .why-list {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 16px;
+    padding: 8px 24px 28px;
+    margin: 0 -24px;
+  }
+  .why-list::-webkit-scrollbar { display: none; }
   .why-row,
   .why-row--rev {
     flex-direction: column !important;
+    flex-shrink: 0;
+    width: 80vw;
+    scroll-snap-align: start;
     gap: 20px;
     text-align: center;
-    padding: 40px 0;
+    padding: 28px 20px !important;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius-lg);
+    border-bottom: none;
   }
   .why-icon-wrap { margin: 0 auto; }
 
-  /* How */
+  /* How — horizontal swipe carousel */
   .section-head { margin-bottom: 48px; }
+  .how-steps {
+    flex-direction: row !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: stretch;
+    gap: 16px;
+    padding: 8px 24px 28px;
+    margin: 0 -24px;
+  }
+  .how-steps::-webkit-scrollbar { display: none; }
+  .how-step {
+    flex-shrink: 0 !important;
+    width: 78vw;
+    scroll-snap-align: start;
+    padding: 28px 24px !important;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    border-bottom: none !important;
+  }
+  .how-line { display: none; }
 
-  /* Gallery */
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .gal-card     { height: 200px; }
-  .gal-overlay  { opacity: 1; }
+  /* Gallery — horizontal scroll strip */
+  .gallery-grid {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 12px;
+    padding: 0 24px 24px;
+    margin: 0 -24px;
+  }
+  .gallery-grid::-webkit-scrollbar { display: none; }
+  .gal-card {
+    flex-shrink: 0;
+    width: 74vw;
+    height: 230px;
+    scroll-snap-align: start;
+  }
+  .gal-overlay { opacity: 1; }
 
   /* Footer */
   .footer-inner {
@@ -1158,9 +1212,6 @@ input, textarea, select { font-family: inherit; }
   .hero-title  { font-size: 2.9rem; }
   .hero-actions { flex-direction: column; }
   .hero-actions .btn { width: 100%; }
-
-  .gallery-grid { grid-template-columns: 1fr; }
-  .gal-card     { height: 220px; }
 
   .wa-float     { bottom: 20px; right: 20px; width: 54px; height: 54px; }
 }
@@ -1745,21 +1796,40 @@ input, textarea, select { font-family: inherit; }
   /* Bottom padding so sticky bar doesn't cover content */
   body { padding-bottom: 80px; }
 
-  /* Reduce section padding for less scrolling */
-  :root { --sec-pad: 64px; }
-
-  /* Why section: show only first 2 rows on mobile */
-  .why-list .why-row:nth-child(n+3) { display: none; }
-
-  /* Gallery: show 4 items in 2×2 grid instead of 6 */
-  .gallery-grid .gal-card:nth-child(n+5) { display: none; }
-
-  /* Tighten why row spacing */
-  .why-row  { padding: 36px 0; gap: 24px; }
-
-  /* Tighten how step spacing */
-  .how-step { padding: 24px 0; }
-
   /* Compact tab split on mobile */
   .tab-num  { font-size: 2.4rem; }
+}
+
+
+/* ============================================================
+   MOBILE CAROUSEL DOT INDICATORS
+============================================================ */
+.m-dots {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .m-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+  }
+  .m-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  /* Light background sections (gallery) */
+  .m-dots--light .m-dot         { background: var(--border); }
+  .m-dots--light .m-dot.active  { width: 22px; background: var(--blue); }
+  /* Dark background sections (why, how) */
+  .m-dots--dark  .m-dot         { background: rgba(255,255,255,0.22); }
+  .m-dots--dark  .m-dot.active  { width: 22px; background: #ffffff; }
 }

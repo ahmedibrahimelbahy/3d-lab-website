@@ -409,6 +409,50 @@ document.addEventListener('DOMContentLoaded', function () {
   // ============================================================
   // GSAP SCROLL ANIMATIONS
   // ============================================================
+  // ============================================================
+  // MOBILE CAROUSEL DOTS — swipe indicators for why / how / gallery
+  // ============================================================
+  (function initMobileCarousels() {
+    if (window.innerWidth > 768) return;
+
+    var configs = [
+      { scroll: document.querySelector('.why-list'),     count: 4, dark: true  },
+      { scroll: document.querySelector('.how-steps'),    count: 3, dark: true  },
+      { scroll: document.querySelector('.gallery-grid'), count: 6, dark: false },
+    ];
+
+    configs.forEach(function (cfg) {
+      if (!cfg.scroll) return;
+
+      var dotsEl = document.createElement('div');
+      dotsEl.className = 'm-dots ' + (cfg.dark ? 'm-dots--dark' : 'm-dots--light');
+
+      for (var i = 0; i < cfg.count; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'm-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to item ' + (i + 1));
+        (function (idx) {
+          dot.addEventListener('click', function () {
+            var itemW = cfg.scroll.scrollWidth / cfg.count;
+            cfg.scroll.scrollTo({ left: itemW * idx, behavior: 'smooth' });
+          });
+        })(i);
+        dotsEl.appendChild(dot);
+      }
+
+      cfg.scroll.parentNode.insertBefore(dotsEl, cfg.scroll.nextSibling);
+
+      cfg.scroll.addEventListener('scroll', function () {
+        var ratio = cfg.scroll.scrollLeft / (cfg.scroll.scrollWidth - cfg.scroll.clientWidth || 1);
+        var idx   = Math.min(Math.round(ratio * (cfg.count - 1)), cfg.count - 1);
+        dotsEl.querySelectorAll('.m-dot').forEach(function (d, i) {
+          d.classList.toggle('active', i === idx);
+        });
+      }, { passive: true });
+    });
+  })();
+
+
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
@@ -537,15 +581,17 @@ document.addEventListener('DOMContentLoaded', function () {
     opacity: 0, scale: 0.78, duration: 0.75, ease: 'power2.out', delay: 0.25
   });
 
-  // Why rows (alternating sides)
-  document.querySelectorAll('.why-row').forEach(function (row) {
-    gsap.from(row, {
-      scrollTrigger: { trigger: row, start: 'top 82%' },
-      opacity: 0,
-      x: row.classList.contains('why-row--rev') ? 60 : -60,
-      duration: 0.8, ease: 'power3.out'
+  // Why rows (alternating sides — desktop only; mobile uses horizontal carousel)
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.why-row').forEach(function (row) {
+      gsap.from(row, {
+        scrollTrigger: { trigger: row, start: 'top 82%' },
+        opacity: 0,
+        x: row.classList.contains('why-row--rev') ? 60 : -60,
+        duration: 0.8, ease: 'power3.out'
+      });
     });
-  });
+  }
 
   // How It Works
   gsap.from('.how-step', {
