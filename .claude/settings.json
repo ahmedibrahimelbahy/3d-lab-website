@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find 'd:/3D Lab Website' -type f -exec ls -lh {})",
+      "Bash(2)",
+      "Read(//d/3D Lab Website/**)",
+      "Read(//d/3D Lab Website/{printf \"\"\"\"\"\"\"\"%-80s %s/**)",
+      "WebFetch(domain:polygon.technology)",
+      "Bash(gh auth:*)",
+      "Bash(vercel whoami:*)",
+      "Bash(git config:*)"
+    ]
+  }
+}
