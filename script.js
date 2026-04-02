@@ -439,20 +439,81 @@ document.addEventListener('DOMContentLoaded', function () {
     .from('.hero-actions .btn', { opacity: 0, y: 16, stagger: 0.12, duration: 0.5 }, '+=0.55')
     .from('.hero-visual', { opacity: 0, scale: 0.88, duration: 0.9, ease: 'power2.out' }, '-=1.1');
 
-  // Stats counters
-  ScrollTrigger.create({
-    trigger: '.stats', start: 'top 82%', once: true,
-    onEnter: function () {
-      document.querySelectorAll('.counter').forEach(function (el) {
-        var obj = { val: 0 };
-        gsap.to(obj, {
-          val: parseInt(el.getAttribute('data-target'), 10),
-          duration: 2, ease: 'power2.out',
-          onUpdate: function () { el.textContent = Math.round(obj.val); }
-        });
+  // Stats Carousel — Polygon-style auto-advance with per-tab progress bar
+  (function () {
+    var slides = document.querySelectorAll('.sc-slide');
+    var tabs   = document.querySelectorAll('.sc-tab');
+    if (!slides.length || !tabs.length) return;
+
+    var current       = 0;
+    var progressTween = null;
+    var DURATION      = 4; // seconds per slide
+
+    function animateCounter(slide) {
+      var counter = slide.querySelector('.sc-counter');
+      if (!counter) return;
+      var target = parseInt(counter.getAttribute('data-target'), 10);
+      if (isNaN(target)) return;
+      var obj = { val: 0 };
+      gsap.to(obj, {
+        val: target, duration: 1.8, ease: 'power2.out',
+        onUpdate: function () { counter.textContent = Math.round(obj.val); }
       });
     }
-  });
+
+    function goTo(idx) {
+      var prevIdx = current;
+      current = idx;
+
+      if (progressTween) { progressTween.kill(); progressTween = null; }
+
+      tabs.forEach(function (t) {
+        gsap.set(t.querySelector('.sc-tab-bar'), { width: '0%' });
+        t.classList.remove('active');
+      });
+      tabs[idx].classList.add('active');
+
+      var prev = slides[prevIdx];
+      var next = slides[idx];
+
+      if (prev !== next) {
+        gsap.to(prev, {
+          opacity: 0, y: -22, duration: 0.28, ease: 'power2.in',
+          onComplete: function () { prev.classList.remove('active'); gsap.set(prev, { y: 0 }); }
+        });
+      }
+
+      next.classList.add('active');
+      gsap.fromTo(next,
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.52, ease: 'power3.out' }
+      );
+
+      animateCounter(next);
+
+      progressTween = gsap.fromTo(
+        tabs[idx].querySelector('.sc-tab-bar'),
+        { width: '0%' },
+        {
+          width: '100%', duration: DURATION, ease: 'none',
+          onComplete: function () { goTo((current + 1) % slides.length); }
+        }
+      );
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { if (i !== current) goTo(i); });
+    });
+
+    ScrollTrigger.create({
+      trigger: '.stats-carousel', start: 'top 82%', once: true,
+      onEnter: function () {
+        gsap.from('.sc-track', { opacity: 0, y: 32, duration: 0.72, ease: 'power3.out' });
+        gsap.from('.sc-tabs',  { opacity: 0, y: 20, duration: 0.6,  ease: 'power3.out', delay: 0.18 });
+        setTimeout(function () { goTo(0); }, 380);
+      }
+    });
+  })();
 
   // Section headings
   gsap.utils.toArray('.section-head').forEach(function (el) {

@@ -65,36 +65,68 @@
     </div>
   </section>
 
-  <!-- ===== STATS STRIP ===== -->
-  <section class="stats dark-section" id="stats">
-    <div class="container stats-inner">
-      <div class="stat">
-        <div class="stat-value">
-          <span class="counter" data-target="500">0</span><span>+</span>
+  <!-- ===== STATS CAROUSEL ===== -->
+  <section class="stats-carousel dark-section" id="stats">
+    <div class="container">
+
+      <div class="sc-track">
+
+        <div class="sc-slide active" data-index="0">
+          <div class="sc-num">
+            <span class="sc-counter" data-target="500">0</span>
+            <span class="sc-suffix">+</span>
+          </div>
+          <div class="sc-label">Prints Delivered</div>
+          <div class="sc-desc">Orders fulfilled and shipped to every district across Cairo and Giza.</div>
         </div>
-        <div class="stat-label">Prints Delivered</div>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat">
-        <div class="stat-value stat-icon-val">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+
+        <div class="sc-slide" data-index="1">
+          <div class="sc-num sc-num--static">
+            <span>0.1</span><span class="sc-suffix">mm</span>
+          </div>
+          <div class="sc-label">Layer Precision</div>
+          <div class="sc-desc">Sub-millimeter accuracy baked into every single print we produce.</div>
         </div>
-        <div class="stat-label">Cairo &amp; Giza<br><strong>Full Coverage</strong></div>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat">
-        <div class="stat-value stat-icon-val">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+
+        <div class="sc-slide" data-index="2">
+          <div class="sc-num">
+            <span class="sc-counter" data-target="24">0</span>
+            <span class="sc-suffix">hr</span>
+          </div>
+          <div class="sc-label">Express Turnaround</div>
+          <div class="sc-desc">From order confirmation to delivery — fast. No guessing, no delays.</div>
         </div>
-        <div class="stat-label">Express<br><strong>Turnaround</strong></div>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat">
-        <div class="stat-value stat-icon-val">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+
+        <div class="sc-slide" data-index="3">
+          <div class="sc-num">
+            <span class="sc-counter" data-target="100">0</span>
+            <span class="sc-suffix">%</span>
+          </div>
+          <div class="sc-label">Quality Inspected</div>
+          <div class="sc-desc">Every print is physically checked before it leaves the studio.</div>
         </div>
-        <div class="stat-label">WhatsApp<br><strong>Order Tracking</strong></div>
+
       </div>
+
+      <div class="sc-tabs">
+        <button class="sc-tab active" data-index="0">
+          <span class="sc-tab-label">Prints Delivered</span>
+          <span class="sc-tab-bar"></span>
+        </button>
+        <button class="sc-tab" data-index="1">
+          <span class="sc-tab-label">Precision</span>
+          <span class="sc-tab-bar"></span>
+        </button>
+        <button class="sc-tab" data-index="2">
+          <span class="sc-tab-label">Turnaround</span>
+          <span class="sc-tab-bar"></span>
+        </button>
+        <button class="sc-tab" data-index="3">
+          <span class="sc-tab-label">Quality</span>
+          <span class="sc-tab-bar"></span>
+        </button>
+      </div>
+
     </div>
   </section>
 
