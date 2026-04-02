@@ -375,9 +375,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // ============================================================
   // NAV — glass effect on scroll
   // ============================================================
-  var nav = document.getElementById('nav');
+  var nav       = document.getElementById('nav');
+  var mobileBar = document.getElementById('mobile-bar');
   window.addEventListener('scroll', function () {
     nav.classList.toggle('scrolled', window.scrollY > 30);
+    if (mobileBar) {
+      mobileBar.classList.toggle('visible', window.scrollY > 80);
+    }
   }, { passive: true });
 
 
