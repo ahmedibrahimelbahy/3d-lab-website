@@ -1796,7 +1796,6 @@ input, textarea, select { font-family: inherit; }
   .wa-float { display: none; }
 
   /* Bottom padding so sticky bar doesn't cover content */
-  body { padding-bottom: 80px; }
 
   /* Compact tab split on mobile */
   .tab-num  { font-size: 2.4rem; }
