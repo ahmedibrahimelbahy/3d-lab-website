@@ -416,13 +416,33 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.innerWidth > 768) return;
 
     var configs = [
-      { scroll: document.querySelector('.why-list'),     count: 4, dark: true  },
-      { scroll: document.querySelector('.how-steps'),    count: 3, dark: true  },
-      { scroll: document.querySelector('.gallery-grid'), count: 6, dark: false },
+      { scroll: document.querySelector('.why-list'),     count: 4, dark: true,  autoSlide: true  },
+      { scroll: document.querySelector('.how-steps'),    count: 3, dark: true,  autoSlide: true  },
+      { scroll: document.querySelector('.gallery-grid'), count: 6, dark: false, autoSlide: false },
     ];
+
+    // Auto-slide interval for why + how carousels (not gallery — user browses that manually)
+    function startAutoSlide(scrollEl, count) {
+      var current = 0;
+      return setInterval(function () {
+        current = (current + 1) % count;
+        var itemW = scrollEl.scrollWidth / count;
+        scrollEl.scrollTo({ left: itemW * current, behavior: 'smooth' });
+      }, 3200);
+    }
 
     configs.forEach(function (cfg) {
       if (!cfg.scroll) return;
+
+      // Auto-slide for why and how (not gallery)
+      if (cfg.autoSlide) {
+        var timer = startAutoSlide(cfg.scroll, cfg.count);
+        // Pause on touch, resume after 6s
+        cfg.scroll.addEventListener('touchstart', function () {
+          clearInterval(timer);
+          setTimeout(function () { timer = startAutoSlide(cfg.scroll, cfg.count); }, 6000);
+        }, { passive: true });
+      }
 
       var dotsEl = document.createElement('div');
       dotsEl.className = 'm-dots ' + (cfg.dark ? 'm-dots--dark' : 'm-dots--light');
