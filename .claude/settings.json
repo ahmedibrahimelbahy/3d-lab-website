@@ -8,7 +8,9 @@
       "WebFetch(domain:polygon.technology)",
       "Bash(gh auth:*)",
       "Bash(vercel whoami:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(gh repo:*)",
+      "Bash(python scripts/search.py \"premium 3D printing studio futuristic dark navy animation\" --design-system -p \"3D Lab\" -f markdown)"
     ]
   }
 }
